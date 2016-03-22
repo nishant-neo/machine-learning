@@ -8,14 +8,7 @@ m = length(y); % number of training examples
 J_history = zeros(num_iters, 1);
 
 for iter = 1:num_iters
-    %theta(1) = theta(1) - (  alpha * (1 / m) * (sum((X * theta) - y) )); 
-    %theta(2) = theta(2) - (  alpha * (1 / m) * (sum((X * theta) - y) ));
-    %theta = pinv( X' * X ) * X' * y;
-    A = X * theta - y;  % (m x 1 vector)
- 	delta = 1 / m * (A' * X)';  % ' ((n+1) x 1 vector)
- 	theta = theta - (alpha * delta);  % ' ((n+1) x 1 vector)
-
-    % ====================== YOUR CODE HERE ======================
+     % ====================== YOUR CODE HERE ======================
     % Instructions: Perform a single gradient step on the parameter vector
     %               theta. 
     %
@@ -23,17 +16,23 @@ for iter = 1:num_iters
     %       of the cost function (computeCost) and gradient here.
     %
 
+	% Nested loop implementation:
+	% num_thetas = length(theta);
+	% theta_new = zeros(num_thetas,1);
+	% for j = 1:num_thetas
+	%	inner_sum = 0;
+	%	for i = 1:m
+	%		inner_sum = inner_sum + ((X(i,:) * theta) - y(i)) * X(i,j);
+	%	end
+	%	theta_new(j) = theta(j) - (alpha / m * inner_sum);
+	%end
 
-
-
-
-
+    % Vectorized implementation:
+	A = X * theta - y;  % (m x 1 vector)
+	delta = 1 / m * (A' * X)';  % ' ((n+1) x 1 vector)
+	theta = theta - (alpha * delta);  % ' ((n+1) x 1 vector)
 
     % ============================================================
-
-    % Save the cost J in every iteration    
-    J_history(iter) = computeCost(X, y, theta);
-
 end
 
 end
